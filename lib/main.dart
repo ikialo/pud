@@ -48,17 +48,22 @@ class _MyAppState extends State<MyApp> {
     return new SplashScreen(
         seconds: 4,
         navigateAfterSeconds: new AuthDriver(),
-        title: new Text('Welcome In SplashScreen',
+        title: new Text('Pick Up Driver',
           style: new TextStyle(
+              color: Colors.white70,
               fontWeight: FontWeight.bold,
               fontSize: 20.0
-          ),),
+
+
+          ),
+
+        ),
         image: new Image.network('https://i.imgur.com/TyCSG9A.png'),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(0, 143, 209, 1),
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,
         onClick: ()=>print("Flutter Egypt"),
-        loaderColor: Colors.red
+        loaderColor: Colors.white
     );
   }
 }

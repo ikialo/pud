@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pickupdriver/LandingPage/mainpage.dart';
 
 
 class EmailPasswordForm extends StatefulWidget {
@@ -28,7 +30,7 @@ class EmailPasswordFormState extends State<EmailPasswordForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: const Text('Test sign in with email and password'),
+            child: const Text('SIGN IN', style: TextStyle(fontSize: 20.0 ),),
             padding: const EdgeInsets.all(16),
             alignment: Alignment.center,
           ),
@@ -55,13 +57,16 @@ class EmailPasswordFormState extends State<EmailPasswordForm> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             alignment: Alignment.center,
+
             child: RaisedButton(
+              color: Colors.blue,
+
               onPressed: () async {
                 if (_formKey.currentState.validate()) {
                   _signInWithEmailAndPassword();
                 }
               },
-              child: const Text('Submit'),
+              child: const Text('Submit', style: TextStyle(color: Colors.white),),
             ),
           ),
           Container(
@@ -91,6 +96,10 @@ class EmailPasswordFormState extends State<EmailPasswordForm> {
       setState(() {
         _success = true;
         _userEmail = user.email;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MainScreen(currentUserId: user.uid)));
       });
     } else {
       setState(() {

@@ -17,15 +17,53 @@ class MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(child: Text(currentUserId),);
+    return SafeArea(
+        child: Scaffold(
+          drawer: Drawer(child: Row(),),
+      appBar: AppBar(
+
+          title: Text("Driver App"),
+
+      ),
+      body: Center(
+        child: Container(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                color: Colors.green,
+                child: FlatButton(
+                    onPressed: null,
+                    child: Text(
+                      "Turn On GPS",
+                      style: TextStyle(color: Colors.white),
+                    ))),
+            SizedBox(
+              height: 50,
+            ),
+          Container(
+              color: Colors.red,
+              child: FlatButton(
+                  onPressed: null,
+                  child: Text(
+                    "Turn OFF GPS",
+                    style: TextStyle(color: Colors.white),
+                  ))),
+            SizedBox(
+              height: 20,
+            ),
+            Text(currentUserId)
+          ],
+        )),
+      ),
+    ));
   }
-
-
 }
-  // final FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  // new FlutterLocalNotificationsPlugin();
-  // final GoogleSignIn googleSignIn = GoogleSignIn();
+// final FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+// new FlutterLocalNotificationsPlugin();
+// final GoogleSignIn googleSignIn = GoogleSignIn();
 
 //   SharedPreferences prefs;
 //   bool admin;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pickupdriver/LandingPage/LocationTrack/getLocation.dart';
 
 class MainScreen extends StatefulWidget {
   final String currentUserId;
@@ -34,17 +33,8 @@ class MainScreenState extends State<MainScreen> {
           children: [
             Container(
                 color: Colors.green,
-                child: MaterialButton(
-                    onPressed: (){
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                        builder: (context) =>
-                        GetLocation()
-                        )
-                      );
-
-                    },
+                child: FlatButton(
+                    onPressed: null,
                     child: Text(
                       "Turn On GPS",
                       style: TextStyle(color: Colors.white),
@@ -54,7 +44,7 @@ class MainScreenState extends State<MainScreen> {
             ),
           Container(
               color: Colors.red,
-              child: MaterialButton(
+              child: FlatButton(
                   onPressed: null,
                   child: Text(
                     "Turn OFF GPS",

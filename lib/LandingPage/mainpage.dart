@@ -1,4 +1,6 @@
+import 'package:background_location/background_location.dart';
 import 'package:flutter/material.dart';
+import 'package:pickupdriver/LandingPage/app_bar/drawer_landing.dart';
 
 class MainScreen extends StatefulWidget {
   final String currentUserId;
@@ -10,55 +12,131 @@ class MainScreen extends StatefulWidget {
 }
 
 class MainScreenState extends State<MainScreen> {
-  MainScreenState({Key key, @required this.currentUserId});
 
+  MainScreenState({Key key, @required this.currentUserId});
   final String currentUserId;
+
+  String latitude = "waiting...";
+  String longitude = "waiting...";
+  String altitude = "waiting...";
+  String accuracy = "waiting...";
+  String bearing = "waiting...";
+  String speed = "waiting...";
+  String time = "waiting...";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return SafeArea(
-        child: Scaffold(
-          drawer: Drawer(child: Row(),),
-      appBar: AppBar(
+    return MaterialApp(
+      home: Scaffold(
+        drawer: Drawer(
+            child: DrawMain(currentUserId: currentUserId,)
+        ),
+        appBar: AppBar(
+          title: const Text('Pick Up Driver'),
 
-          title: Text("Driver App"),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: ListView(
+              children: <Widget>[
+                locationData("Latitude: " + latitude),
+                locationData("Longitude: " + longitude),
+                locationData("Altitude: " + altitude),
+                locationData("Accuracy: " + accuracy),
+                locationData("Bearing: " + bearing),
+                locationData("Speed: " + speed),
+                locationData("Time: " + time),
+                SizedBox(height: 15,),
 
-      ),
-      body: Center(
-        child: Container(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                color: Colors.green,
-                child: FlatButton(
-                    onPressed: null,
-                    child: Text(
-                      "Turn On GPS",
-                      style: TextStyle(color: Colors.white),
-                    ))),
-            SizedBox(
-              height: 50,
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, right:30),
+                  child: MaterialButton(
+                    color: Colors.blue,
+                      onPressed: () async {
+                        await BackgroundLocation.setAndroidNotification(
+                          title: "Background service is running",
+                          message: "Background location in progress",
+                          icon: "@mipmap/ic_launcher",
+                        );
+                        //await BackgroundLocation.setAndroidConfiguration(5000);
+                        await BackgroundLocation.startLocationService();
+                        BackgroundLocation.getLocationUpdates((location) {
+                          setState(() {
+                            this.latitude = location.latitude.toString();
+                            this.longitude = location.longitude.toString();
+                            this.accuracy = location.accuracy.toString();
+                            this.altitude = location.altitude.toString();
+                            this.bearing = location.bearing.toString();
+                            this.speed = location.speed.toString();
+                            this.time = DateTime.fromMillisecondsSinceEpoch(
+                                location.time.toInt())
+                                .toString();
+                          });
+                          print("""\n
+                            Latitude:  $latitude
+                            Longitude: $longitude
+                            Altitude: $altitude
+                            Accuracy: $accuracy
+                            Bearing:  $bearing
+                            Speed: $speed
+                            Time: $time
+                          """);
+                        });
+                      },
+                      child: Text("Start Location Service",style: TextStyle(color: Colors.white))),
+                ),
+                SizedBox(height: 15,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, right:30),
+                  child: MaterialButton(
+                    color: Colors.deepOrange,
+                      onPressed: () {
+                        BackgroundLocation.stopLocationService();
+                      },
+                      child: Text("Stop Location Service", style: TextStyle(color: Colors.white),)),
+                ),
+                // MaterialButton(
+                //     onPressed: () {
+                //       getCurrentLocation();
+                //     },
+                //     child: Text("Get Current Location")),
+              ],
             ),
-          Container(
-              color: Colors.red,
-              child: FlatButton(
-                  onPressed: null,
-                  child: Text(
-                    "Turn OFF GPS",
-                    style: TextStyle(color: Colors.white),
-                  ))),
-            SizedBox(
-              height: 20,
-            ),
-            Text(currentUserId)
-          ],
-        )),
+          ),
+        ),
       ),
-    ));
+    );
   }
+
+  Widget locationData(String data) {
+    return Text(
+      data,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  getCurrentLocation() {
+    BackgroundLocation().getCurrentLocation().then((location) {
+      print("This is current Location " + location.toMap().toString());
+    });
+  }
+
+  @override
+  void dispose() {
+    BackgroundLocation.stopLocationService();
+    super.dispose();
+  }
+
 }
 // final FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
 // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

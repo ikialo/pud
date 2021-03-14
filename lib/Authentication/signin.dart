@@ -58,7 +58,7 @@ class EmailPasswordFormState extends State<EmailPasswordForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             alignment: Alignment.center,
 
-            child: RaisedButton(
+            child: MaterialButton(
               color: Colors.blue,
 
               onPressed: () async {
@@ -88,7 +88,7 @@ class EmailPasswordFormState extends State<EmailPasswordForm> {
 
   void _signInWithEmailAndPassword() async {
     final User user = (await _auth.signInWithEmailAndPassword(
-      email: _emailController.text,
+      email: _emailController.text.trim(),
       password: _passwordController.text,
     )).user;
 

@@ -1,5 +1,6 @@
 // import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:background_location/background_location.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,7 @@ class _DrawMainState extends State<DrawMain> {
     this.setState(() {
       isLoading = false;
     });
+    BackgroundLocation.stopLocationService();
 
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => MyApp()),
@@ -140,47 +142,7 @@ class _DrawMainState extends State<DrawMain> {
             //     context, MaterialPageRoute(builder: (context) => Settings()));
           },
         ),
-        !admin
-            ? Container()
-            : ListTile(
-                title: Text(
-                  "Add User",
-                  style: style,
-                ),
-                trailing: Icon(Icons.group_add),
-                onTap: () {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => RegisterForm()));
-                },
-              ),
-        !admin
-            ? Container()
-            : ListTile(
-                title: Text(
-                  "List Of Users",
-                  style: style,
-                ),
-                trailing: Icon(Icons.group),
-                onTap: () {
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ListUsers()));
-                },
-              ),
-        ListTile(
-          title: Text(
-            "Message From Admin",
-            style: style,
-          ),
-          trailing: Icon(Icons.message),
-          onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => MessageFromAdmin(
-            //               currentUserId: currentUserId,
-            //             )));
-          },
-        ),
+
         ListTile(
           title: Text(
             "Log out",
